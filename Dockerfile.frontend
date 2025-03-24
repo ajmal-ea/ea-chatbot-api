@@ -1,0 +1,23 @@
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY frontend/package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy frontend files
+COPY frontend/static/ ./static/
+COPY frontend/test-embed.html .
+COPY frontend/dev-server.js .
+
+# Set environment variable
+ENV NODE_ENV=production
+
+# Expose port
+EXPOSE 4000
+
+# Start the server
+CMD ["node", "dev-server.js"] 
