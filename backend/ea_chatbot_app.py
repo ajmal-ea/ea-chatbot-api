@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Request, Response
 from pydantic import BaseModel
-from typing import List, Optional, Dict
+from typing import List, Optional, Dict, Any, Tuple
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 import os
@@ -10,11 +10,12 @@ import uuid
 import requests
 from tenacity import retry, stop_after_attempt, wait_fixed, retry_if_exception_type, retry_if_exception_message
 from prometheus_client import Counter, Histogram, Gauge, Summary, generate_latest, CONTENT_TYPE_LATEST, Info, CollectorRegistry
+from langchain.prompts import ChatPromptTemplate, PromptTemplate
 from dotenv import load_dotenv
 
-load_dotenv(override=True)
-
 from ea_chatbot import ExpressAnalyticsChatbot, setup_logging
+
+load_dotenv(override=True)
 
 logger = setup_logging()
 
@@ -133,7 +134,6 @@ def get_location_from_ip(request: Request):
     except Exception as e:
         logger.error(f"Error getting location data from ip-api: {str(e)}")
         return None
-    
 
 async def store_chat_in_supabase(session_id, user_query, bot_response, ip_address, location):
     """Store chat interaction in Supabase."""
@@ -202,12 +202,11 @@ async def process_chat_request(request: ChatRequest, session_id: str, chat_histo
     
     llm_start = time.time()
     try:
-        response_data = chatbot.get_response(request.message, session_id, chat_history)
+        response_data = chatbot.get_response(request.message, session_id)
     except Exception as e:
         error_str = str(e)
         if 'rate_limit_exceeded' in error_str or '413' in error_str or '429' in error_str:
             if '413' in error_str and 'Requested' in error_str:
-                # Log the token count from the error message for analysis
                 try:
                     requested_str = error_str.split('Requested')[1].split(',')[0].strip()
                     requested_tokens = int(requested_str)
