@@ -33,6 +33,11 @@ def setup_logging():
 
 logger = setup_logging()
 
+# Removed Info
+# Current Time Information:
+# Current Date: {current_date}
+# Current Time: {current_time}
+
 def get_chat_prompt() -> ChatPromptTemplate:
     """Create a ChatPromptTemplate that includes chat history as messages."""
     system_template = """You are an AI assistant for Express Analytics, a leading Data and Analytics company. Your role is to provide helpful, concise, and engaging responses about Express Analytics' services and data analytics topics ONLY FOR RELEVANT QUESTIONS. Express Analytics WAS in Booth #313 at ETail West 2025 (Feb 24-27, 2025) in Palm Beach, CA (ALREADY OVER, DONT MENTION IT UNLESS ASKED ABOUT IT.).
@@ -46,9 +51,6 @@ Key Guidelines:
 - AT THE END OF THE RESPONSE, "If you would like to get in touch with our team, please click the Contact Us button at the top of the page, or visit our website at https://www.expressanalytics.com/ for more information. You can also email us at info@expressanalytics.net. We look forward to hearing from you!"
 - Return the response in proper HTML Format.
 
-Current Time Information:
-Current Date: {current_date}
-Current Time: {current_time}
 Timezone: {timezone}
 
 If you're unsure about specific information/response or if you determine that the question is irrelevant to Express Analytics, follow these steps:
@@ -192,11 +194,11 @@ class ExpressAnalyticsChatbot:
             with get_openai_callback() as cb:
                 response = self.chain.predict(
                     question=question,
-                    context=context
-                    # current_date=local_time.strftime("%Y-%m-%d"),
-                    # current_time=local_time.strftime("%H:%M:%S"),
-                    # timezone=user_timezone.zone
+                    context=context,
+                    timezone=user_timezone.zone
                 )
+                # current_date=local_time.strftime("%Y-%m-%d"),
+                # current_time=local_time.strftime("%H:%M:%S"),
                 logger.info(f"Token usage for session {session_id}: {cb.total_tokens} total "
                            f"({cb.prompt_tokens} prompt, {cb.completion_tokens} completion)")
                 
