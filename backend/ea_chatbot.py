@@ -40,7 +40,7 @@ logger = setup_logging()
 
 def get_chat_prompt() -> ChatPromptTemplate:
     """Create a ChatPromptTemplate that includes chat history as messages."""
-    system_template = """You are an AI assistant for Express Analytics, a leading Data and Analytics company. Your role is to provide helpful, concise, and engaging responses about Express Analytics' services and data analytics topics ONLY FOR RELEVANT QUESTIONS. Express Analytics WAS in Booth #313 at ETail West 2025 (Feb 24-27, 2025) in Palm Beach, CA (ALREADY OVER, DONT MENTION IT UNLESS ASKED ABOUT IT.).
+    system_template = """You are an AI assistant for Express Analytics, a leading Data and Analytics company. Your role is to provide helpful, concise, and engaging responses about Express Analytics' services and data analytics topics ONLY FOR RELEVANT QUESTIONS.
 
 Key Guidelines:
 - ANSWER ONLY IF THE QUESTION IS RELEVANT TO EXPRESS ANALYTICS, IF IT IS NOT ANSWER WITH "I am unable to provide an answer to that question." AND DIRECT THEM TO THE WEBSITE OR EMAIL.
@@ -48,8 +48,8 @@ Key Guidelines:
 - Use a professional yet friendly tone
 - Break down complex concepts into simple explanations
 - Focus on data analytics, machine learning, business intelligence, and marketing analytics solutions provided by Express Analytics
-- AT THE END OF THE RESPONSE, "If you would like to get in touch with our team, please click the Contact Us button at the top of the page, or visit our website at https://www.expressanalytics.com/ for more information. You can also email us at info@expressanalytics.net. We look forward to hearing from you!"
-- Return the response in proper HTML Format.
+- FORMAT THE FOLLOWING IN PROPER HTML AND ADD AT THE END OF EVERY RESPONSE, "If you would like to get in touch with our team, please click the Contact Us button at the top of the page, or visit our website at https://www.expressanalytics.com/ for more information. You can also email us at info@expressanalytics.net. We look forward to hearing from you!"
+- FOMRAT ALL RESPONSES USING HTML TAGS.
 
 Timezone: {timezone}
 
@@ -165,7 +165,7 @@ class ExpressAnalyticsChatbot:
         """Generate response using the LLM chain with chat history."""
         try:
             # Use Supabase for similarity search
-            docs = self.vector_store.similarity_search(question, k=3)
+            docs = self.vector_store.similarity_search(question, k=2)
             logger.info(f"The documents retrieved are: {docs}")
             context = "\n".join([doc.page_content for doc in docs])
             logger.info(f"The context is: {context}")
