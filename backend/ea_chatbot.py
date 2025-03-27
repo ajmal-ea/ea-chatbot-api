@@ -15,6 +15,9 @@ from typing import Dict, Any
 import pytz
 import uuid
 import requests
+from dotenv import load_dotenv
+
+load_dotenv(override=True)
 
 # Set up logging
 def setup_logging():
@@ -112,7 +115,7 @@ class ExpressAnalyticsChatbot:
         try:
             llm = ChatGroq(
                 temperature=0.2,
-                groq_api_key="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",
+                groq_api_key=os.environ.get("GROQ_API_KEY"),
                 model_name="llama-3.2-3b-preview",
                 callbacks=[StreamingStdOutCallbackHandler()]
             )
