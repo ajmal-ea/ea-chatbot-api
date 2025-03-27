@@ -85,8 +85,8 @@ class ExpressAnalyticsChatbot:
             self.vector_store = SupabaseVectorStore(
                 embedding=self.embeddings,
                 client=self.supabase,
-                table_name="EN_documents",
-                query_name="match_en_documents"
+                table_name="documents",
+                query_name="match_documents"
             )
             logger.info("Successfully initialized Supabase vector store")
 
