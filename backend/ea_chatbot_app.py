@@ -79,10 +79,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from dotenv import load_dotenv
-
-load_dotenv()
-
 # Initialize chatbot
 supabase_url = os.getenv('SUPABASE_URL')
 supabase_key = os.getenv('SUPABASE_KEY')
