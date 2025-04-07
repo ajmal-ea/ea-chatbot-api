@@ -9,31 +9,33 @@ services:
     ports:
       - "8000:8000"
     environment:
-      - SUPABASE_URL=https://xjfnuiknkxggygmgqgxg.supabase.co/
-      - SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhqZm51aWtua3hnZ3lnbWdxZ3hnIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0MDEzNzYzMSwiZXhwIjoyMDU1NzEzNjMxfQ.xzVATCSvGiFX8iYe8rMyxKVhLjTeO6ws3drdXxWXDHI
-      - MISTRAL_API_KEY=DJQ7OG5FeAPPeG7ut6PNCpMqanV365nj
-      - GROQ_API_KEY=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
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - MISTRAL_API_KEY=${MISTRAL_API_KEY}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - HUBSPOT_API_URL=${HUBSPOT_API_URL}
+      - HUBSPOT_API_KEY=${HUBSPOT_API_KEY}
     volumes:
       - ./backend/ea_chatbot.py:/app/ea_chatbot.py
       - ./backend/ea_chatbot_app.py:/app/ea_chatbot_app.py
     networks:
       - chatbot-network
 
-  chatbot-frontend:
-    build:
-      context: .
-      dockerfile: Dockerfile.frontend
-    container_name: ea-chatbot-frontend
-    ports:
-      - "4000:4000"
-    depends_on:
-      - chatbot-api
-    volumes:
-      - ./frontend/static:/app/static
-      - ./frontend/test-embed.html:/app/test-embed.html
-      - ./frontend/dev-server.js:/app/dev-server.js
-    networks:
-      - chatbot-network
+  # chatbot-frontend:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.frontend
+  #   container_name: ea-chatbot-frontend
+  #   ports:
+  #     - "4000:4000"
+  #   depends_on:
+  #     - chatbot-api
+  #   volumes:
+  #     - ./frontend/static:/app/static
+  #     - ./frontend/test-embed.html:/app/test-embed.html
+  #     - ./frontend/dev-server.js:/app/dev-server.js
+  #   networks:
+  #     - chatbot-network
 
   prometheus:
     image: prom/prometheus:latest
