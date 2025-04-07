@@ -83,7 +83,7 @@ app.add_middleware(
 # Initialize chatbot
 supabase_url = os.getenv('SUPABASE_URL')
 supabase_key = os.getenv('SUPABASE_KEY')
-mistral_api_key = os.getenv('MISTRALAI_API_KEY')
+mistral_api_key = os.getenv('MISTRAL_API_KEY')
 chatbot = ExpressAnalyticsChatbot(supabase_url, supabase_key, mistral_api_key)
 
 # Create a custom registry for Prometheus metrics
