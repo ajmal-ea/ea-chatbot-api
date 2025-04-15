@@ -122,7 +122,7 @@ class ExpressAnalyticsChatbot:
             llm = ChatGroq(
                 temperature=0.2,
                 groq_api_key=os.environ.get("GROQ_API_KEY"),
-                model_name="llama-3.2-3b-preview",
+                model_name=os.environ.get("GROQ_MODEL_NAME"),
                 callbacks=[StreamingStdOutCallbackHandler()]
             )
 
