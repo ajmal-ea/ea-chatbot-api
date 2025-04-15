@@ -256,7 +256,7 @@ async def chat(request: ChatRequest, client_request: Request):
         response_data = await process_chat_request(request, session_id, chat_history, client_ip)
         
         usage = response_data["token_usage"]
-        model = "llama-3.2-3b"
+        model = os.getenv("GROQ_MODEL_NAME")
         INPUT_TOKENS.labels(model=model, endpoint='/chat').inc(usage["prompt_tokens"])
         OUTPUT_TOKENS.labels(model=model, endpoint='/chat').inc(usage["completion_tokens"])
         TOTAL_TOKENS.labels(model=model, endpoint='/chat').inc(usage["total_tokens"])
